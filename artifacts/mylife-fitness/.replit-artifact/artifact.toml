@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "MyLife Fitness"
+description = "Um app pessoal de saúde e evolução para acompanhar perfil, medidas corporais, hidratação, hábitos e progresso ao longo do tempo."
+version = "1.0.0"
+id = "artifacts/mylife-fitness"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23554
+
+[services.development]
+run = "pnpm --filter @workspace/mylife-fitness run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/mylife-fitness", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/mylife-fitness/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23554"
+BASE_PATH = "/"
